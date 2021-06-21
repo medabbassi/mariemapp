@@ -1,0 +1,51 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Dart",
+      "type": "dart",
+      "request": "launch",
+      "program": "bin/main.dart"
+    },
+    {
+      "name": "Dart: Attach to Process",
+      "type": "dart",
+      "request": "attach"
+    },
+    {
+      "name": "(gdb) Attachement de Bash sur Windows",
+      "type": "cppdbg",
+      "request": "attach",
+      "program": "entrer le nom du programme, par exemple ${workspaceFolder}/a.exe",
+      "processId": "${command:pickRemoteProcess}",
+      "pipeTransport": {
+        "debuggerPath": "/usr/bin/gdb",
+        "pipeProgram": "${env:windir}\\system32\\bash.exe",
+        "pipeArgs": ["-c"],
+        "pipeCwd": ""
+      },
+      "setupCommands": [
+          {
+              "description": "Activer l'impression en mode Pretty pour gdb",
+              "text": "-enable-pretty-printing",
+              "ignoreFailures": true
+          }
+      ]
+    },
+
+    {
+      "name": "C/C++ Runner: Debug Session",
+      "type": "cppdbg",
+      "request": "launch",
+      "args": [],
+      "stopAtEntry": false,
+      "cwd": "c:\\Users\\delll\\Desktop\\mobile-app\\medical-mobile-app\\android\\app\\src\\main",
+      "environment": [],
+      "program": "c:\\Users\\delll\\Desktop\\mobile-app\\medical-mobile-app\\android\\app\\src\\main\\build\\Debug\\outDebug",
+      "internalConsoleOptions": "openOnSessionStart",
+      "MIMode": "gdb",
+      "miDebuggerPath": "C:\\MinGW\\bin\\gdb.exe",
+      "externalConsole": false
+    }
+  ]
+}
