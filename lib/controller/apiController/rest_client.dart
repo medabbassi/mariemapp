@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 
+import '../../doctor.dart';
+
 class RestClient extends StatefulWidget{
   @override
   State<StatefulWidget> createState(){
@@ -12,7 +14,10 @@ class RestClient extends StatefulWidget{
   }
 }
 class _RestClientRes extends State<RestClient>{
+  final Doctor doctor;
   List _items = [];
+
+  _RestClientRes({this.doctor});
   @override
   void initState() {
     readJson();

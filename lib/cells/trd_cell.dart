@@ -2,10 +2,12 @@ import 'package:coeliqueapplication/models/doctor.dart';
 import 'package:coeliqueapplication/utils/custom_icons_icons.dart';
 import 'package:coeliqueapplication/utils/he_color.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class TrdCell extends StatelessWidget {
   final Doctor doctor;
   final Function onTap;
+
 
   const TrdCell({
     Key key,
@@ -66,6 +68,7 @@ class TrdCell extends StatelessWidget {
   }
 
   /// Details Section
+  ///
   Column _detailsSection() {
     return Column(
       children: [
