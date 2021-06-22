@@ -21,7 +21,7 @@ class TrainingScreen extends StatelessWidget {
                 borderRadius:
                     BorderRadius.vertical(bottom: Radius.circular(40)),
                 child: Image.asset(
-                  'assets/images/userImage.png',
+                  'assets/images/mathew.png',
                   fit: BoxFit.cover,
                 ),
               ),

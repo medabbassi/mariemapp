@@ -58,6 +58,7 @@ class _NavigationHomeScreenState extends State<NavigationHomeScreen> {
       } else if (drawerIndex == DrawerIndex.HOME) {
         setState(() {
           screenView = MyHomePage();
+
         });
       } else if (drawerIndex == DrawerIndex.Doctor) {
         setState(() {
