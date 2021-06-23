@@ -5,6 +5,7 @@ import 'package:coeliqueapplication/models/doctor.dart';
 import 'package:coeliqueapplication/pages/detail_page.dart';
 import 'package:coeliqueapplication/utils/custom_icons_icons.dart';
 import 'package:coeliqueapplication/utils/he_color.dart';
+import 'package:coeliqueapplication/views/utils/infocells.dart';
 import 'package:flutter/material.dart';
 import 'hotel_app_theme.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -79,7 +80,8 @@ class _HomePageState extends State<HomePage> {
                     SizedBox(
                       height: 15,
                     ),
-                    _trDoctorsSection(),
+                    InfoCells(),
+                    // _trDoctorsSection(),
                   ],
                 ),
               ),

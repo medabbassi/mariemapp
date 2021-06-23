@@ -1,3 +1,4 @@
+import 'package:coeliqueapplication/pages/homepage.dart';
 import 'package:flutter/material.dart';
 import 'package:coeliqueapplication/pages/home_page.dart';
 
@@ -10,7 +11,7 @@ class Doctor extends StatelessWidget {
         scaffoldBackgroundColor: Colors.white,
         fontFamily: 'SFProDisplay',
       ),
-      home: HomePage(),
+      home: Homepg(),
     );
   }
 }

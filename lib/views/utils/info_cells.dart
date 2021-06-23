@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 
 import 'package:coeliqueapplication/utils/he_color.dart';
@@ -8,25 +7,24 @@ import 'package:flutter/services.dart';
 
 import '../../doctor.dart';
 
-class InfoCells extends StatefulWidget{
+class InfoCells extends StatefulWidget {
   @override
-  State<StatefulWidget> createState(){
+  State<StatefulWidget> createState() {
     return _InfoCells();
   }
 }
 
-class _InfoCells  extends State<InfoCells>
-{
+class _InfoCells extends State<InfoCells> {
   final Doctor doctor;
   List _items = [];
 
   _InfoCells({this.doctor});
   @override
   void initState() {
-    // TODO: implement initState
     readJson();
     super.initState();
   }
+
   Future<void> readJson() async {
     final String response = await rootBundle.loadString('assets/data.json');
     final data = await json.decode(response);
@@ -34,10 +32,11 @@ class _InfoCells  extends State<InfoCells>
       _items = data["doctors"];
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: (){},
+      onTap: () {},
       child: Container(
         height: 100,
         padding: EdgeInsets.all(16),
@@ -87,7 +86,7 @@ class _InfoCells  extends State<InfoCells>
   Column _detailsSection() {
     return Column(
       children: [
-       /* ElevatedButton(
+        /* ElevatedButton(
           child: Text('Load Data'),
           onPressed: readJson,
         ),*/
@@ -95,24 +94,21 @@ class _InfoCells  extends State<InfoCells>
         // Display the data loaded from sample.json
         _items.length > 0
             ? Expanded(
-            child: ListView.builder(
-            itemCount: _items.length,
-            itemBuilder: (context, index) {
-              return Card(
-                margin: EdgeInsets.all(10),
-                child: ListTile(
-
-                  title: Text(_items[index]["fullname"]),
-                  subtitle: Text(_items[index]["speciality"]),
+                child: ListView.builder(
+                  itemCount: _items.length,
+                  itemBuilder: (context, index) {
+                    return Card(
+                      margin: EdgeInsets.all(10),
+                      child: ListTile(
+                        title: Text(_items[index]["fullname"]),
+                        subtitle: Text(_items[index]["speciality"]),
+                      ),
+                    );
+                  },
                 ),
-              );
-            },
-          ),
-        )
+              )
             : Container()
       ],
     );
   }
 }
-
-
