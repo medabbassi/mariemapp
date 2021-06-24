@@ -1,18 +1,19 @@
 import 'package:coeliqueapplication/main.dart';
+import 'package:coeliqueapplication/pages/homepage.dart';
 import 'package:coeliqueapplication/utils/custom_icons_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:coeliqueapplication/models/doctor.dart';
 
 class DetailPage extends StatefulWidget {
-  final Doctor doctor;
 
-  const DetailPage({Key key, @required this.doctor}) : super(key: key);
+
+  const DetailPage({Key key}) : super(key: key);
   @override
   _DetailPageState createState() => _DetailPageState();
 }
 
 class _DetailPageState extends State<DetailPage> {
-  List _items = [];
+  List <d_info>_items = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,7 +34,7 @@ class _DetailPageState extends State<DetailPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Dr.' + _items[index]['fullname'],
+                    'Dr.' + _items[index].fullname,
                     style: TextStyle(
                         color: Colors.black,
                         fontSize: 22,

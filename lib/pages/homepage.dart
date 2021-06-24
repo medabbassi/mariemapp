@@ -18,7 +18,7 @@ class Homepg extends StatefulWidget {
 }
 
 class _Homepg extends State<Homepg> {
-  List _items = [];
+  List <d_info>_items = [];
   @override
   void initState() {
     readJson();
@@ -74,8 +74,8 @@ class _Homepg extends State<Homepg> {
                               child: Image.asset('assets/images/doctor1.jpg',
                                   fit: BoxFit.cover),
                             ),
-                            title: Text(_items[index]["fullname"]),
-                            subtitle: Text(_items[index]["specialty"]),
+                            title: Text(_items[index].fullname),
+                            subtitle: Text(_items[index].specialty),
                             onTap: () {
                               Navigator.push(
                                   context,
@@ -167,4 +167,13 @@ Widget getSearchBarUI() {
       ],
     ),
   );
+}
+class d_info{
+  final String fullname;
+  final String governorate;
+  final String specialty;
+  final String phone;
+  final String adresse;
+
+  d_info(this.fullname, this.governorate, this.specialty, this.phone, this.adresse);
 }
