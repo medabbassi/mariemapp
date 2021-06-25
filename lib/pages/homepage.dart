@@ -75,7 +75,7 @@ class _Homepg extends State<Homepg> {
                             fit: BoxFit.cover),
                       ),
                       title: Text(_items[index]["fullname"]),
-                      subtitle: Text(_items[index]["specialty"]),
+                      subtitle: Text(_items[index]["specialty"]+("--")+_items[index]['governorate']),
                       onTap: () async {
                         /*Navigator.push(
                             context,

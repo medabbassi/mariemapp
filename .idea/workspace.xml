@@ -22,23 +22,8 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="830d7c43-5c66-4035-87b0-75b2697c76cc" name="Default Changelist" comment="do some changes 2">
-      <change beforePath="$PROJECT_DIR$/.dart_tool/flutter_build/3979525700e324f802f335f6bfc01337/.filecache" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/flutter_build/3979525700e324f802f335f6bfc01337/.filecache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.dart_tool/flutter_build/3979525700e324f802f335f6bfc01337/app.dill" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/flutter_build/3979525700e324f802f335f6bfc01337/app.dill" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.dart_tool/flutter_build/3979525700e324f802f335f6bfc01337/debug_android_application.stamp" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/flutter_build/3979525700e324f802f335f6bfc01337/debug_android_application.stamp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.dart_tool/flutter_build/3979525700e324f802f335f6bfc01337/flutter_assets.d" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/flutter_build/3979525700e324f802f335f6bfc01337/flutter_assets.d" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.flutter-plugins-dependencies" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins-dependencies" afterDir="false" />
+    <list default="true" id="830d7c43-5c66-4035-87b0-75b2697c76cc" name="Default Changelist" comment="do some UI changes 3">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/4f2a58af27abc49ecf55570043bbf938.cache.dill.track.dill" beforeDir="false" afterPath="$PROJECT_DIR$/build/4f2a58af27abc49ecf55570043bbf938.cache.dill.track.dill" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/app/intermediates/compressed_assets/debug/out/assets/flutter_assets/kernel_blob.bin.jar" beforeDir="false" afterPath="$PROJECT_DIR$/build/app/intermediates/compressed_assets/debug/out/assets/flutter_assets/kernel_blob.bin.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/app/intermediates/flutter/debug/flutter_assets/kernel_blob.bin" beforeDir="false" afterPath="$PROJECT_DIR$/build/app/intermediates/flutter/debug/flutter_assets/kernel_blob.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/app/intermediates/flutter/debug/flutter_build.d" beforeDir="false" afterPath="$PROJECT_DIR$/build/app/intermediates/flutter/debug/flutter_build.d" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/app/intermediates/incremental/packageDebug/tmp/debug/dex-renamer-state.txt" beforeDir="false" afterPath="$PROJECT_DIR$/build/app/intermediates/incremental/packageDebug/tmp/debug/dex-renamer-state.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/app/intermediates/merged_assets/debug/out/flutter_assets/kernel_blob.bin" beforeDir="false" afterPath="$PROJECT_DIR$/build/app/intermediates/merged_assets/debug/out/flutter_assets/kernel_blob.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/app/outputs/apk/debug/app-debug.apk" beforeDir="false" afterPath="$PROJECT_DIR$/build/app/outputs/apk/debug/app-debug.apk" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/app/outputs/flutter-apk/app-debug.apk" beforeDir="false" afterPath="$PROJECT_DIR$/build/app/outputs/flutter-apk/app-debug.apk" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/app/outputs/flutter-apk/app.apk" beforeDir="false" afterPath="$PROJECT_DIR$/build/app/outputs/flutter-apk/app.apk" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/app/outputs/flutter-apk/app.apk.sha1" beforeDir="false" afterPath="$PROJECT_DIR$/build/app/outputs/flutter-apk/app.apk.sha1" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/pages/homepage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/homepage.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -154,7 +139,14 @@
       <option name="project" value="LOCAL" />
       <updated>1624641779819</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="do some UI changes 3">
+      <created>1624643474965</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1624643474965</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -178,7 +170,8 @@
     <MESSAGE value="see whats wrong and fix , fixing teh doctor screen , there is one error in the details screen will work o it" />
     <MESSAGE value="do some code changes" />
     <MESSAGE value="do some changes 2" />
-    <option name="LAST_COMMIT_MESSAGE" value="do some changes 2" />
+    <MESSAGE value="do some UI changes 3" />
+    <option name="LAST_COMMIT_MESSAGE" value="do some UI changes 3" />
   </component>
   <component name="WindowStateProjectService">
     <state x="413" y="116" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1624236796175">
@@ -221,11 +214,11 @@
       <screen x="1366" y="0" width="1440" height="870" />
     </state>
     <state x="1566" y="9" key="SettingsEditor/0.0.1366.738/1366.0.1440.870@1366.0.1440.870" timestamp="1624642717208" />
-    <state x="275" y="102" key="Vcs.Push.Dialog.v2" timestamp="1624641791874">
-      <screen x="0" y="0" width="1366" height="738" />
+    <state x="1656" y="120" key="Vcs.Push.Dialog.v2" timestamp="1624643447603">
+      <screen x="1366" y="0" width="1440" height="870" />
     </state>
     <state x="275" y="102" key="Vcs.Push.Dialog.v2/0.0.1366.738/1366.0.1440.870@0.0.1366.738" timestamp="1624641791874" />
-    <state x="1656" y="120" key="Vcs.Push.Dialog.v2/0.0.1366.738/1366.0.1440.870@1366.0.1440.870" timestamp="1624468088310" />
+    <state x="1656" y="120" key="Vcs.Push.Dialog.v2/0.0.1366.738/1366.0.1440.870@1366.0.1440.870" timestamp="1624643447603" />
     <state x="275" y="102" key="Vcs.Push.Dialog.v2/0.0.1366.738@0.0.1366.738" timestamp="1624296845661" />
     <state x="329" y="103" key="com.intellij.openapi.vcs.changes.SpecificFilesViewDialog" timestamp="1624296088410">
       <screen x="0" y="0" width="1366" height="738" />
