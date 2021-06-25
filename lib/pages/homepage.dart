@@ -89,17 +89,34 @@ class _Homepg extends State<Homepg> {
                             context: context,
                             builder: (BuildContext context){
                             return AlertDialog(
-                             title: new Text("Dr" + _items[index]['fullname']),
+                             title: new Text("Dr_ "+ _items[index]['fullname']),
                              content: new Card(
                                child: Center(
                                 child: Column(
                                   mainAxisSize: MainAxisSize.min,
                                   children: <Widget>[
                                     new Image.asset("assets/images/mathew.png"),
-                                    new Text(_items[index]['address']),
-                                    new Text(_items[index]['governorate']),
-                                    new Text(_items[index]['specialty']),
-                                    new Text(_items[index]['phone']),
+                                    new SizedBox(height: 5),
+                                    new Text("Addresse: "+_items[index]['address'],
+                                        style:TextStyle(
+                                          fontSize: 22,
+                                          fontWeight: FontWeight.w400
+                                    ) ),
+                                    new SizedBox(height: 5),
+                                    new Text("Governorate: " +_items[index]['governorate'],style:TextStyle(
+                                        fontSize: 22,
+                                        fontWeight: FontWeight.w400
+                                    )),
+                                    new SizedBox(height: 5),
+                                    new Text("Specialité: "+_items[index]['specialty'], style:TextStyle(
+                                        fontSize: 22,
+                                        fontWeight: FontWeight.w400
+                                    )),
+                                    new SizedBox(height: 5),
+                                    new Text("Numero de téléphone: "+_items[index]['phone'], style:TextStyle(
+                                        fontSize: 22,
+                                        fontWeight: FontWeight.w400
+                                    )),
                                   ],
                                 )
                                ),
