@@ -13,7 +13,8 @@ class DetailPage extends StatefulWidget {
 }
 
 class _DetailPageState extends State<DetailPage> {
-  List <d_info>_items = [];
+  List _items = [];
+  int index;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,7 +55,7 @@ class _DetailPageState extends State<DetailPage> {
                         width: 4,
                       ),
                       Text(
-                        widget.doctor.ville,
+                        _items[index].governorate,
                         style: TextStyle(color: HexColor('#C6C6CD')),
                       )
                     ],
@@ -89,7 +90,7 @@ class _DetailPageState extends State<DetailPage> {
                     height: 14,
                   ),
                   Text(
-                    widget.doctor.adresse,
+                    _items[index].adresse,
                     style: TextStyle(
                         color: Colors.black,
                         fontSize: 22,
@@ -110,7 +111,7 @@ class _DetailPageState extends State<DetailPage> {
                     height: 14,
                   ),
                   Text(
-                    widget.doctor.phone.toString(),
+                    _items[index].phone,
                     style: TextStyle(
                         color: Colors.black,
                         fontSize: 22,
@@ -164,12 +165,12 @@ class _DetailPageState extends State<DetailPage> {
               child: AspectRatio(
                 aspectRatio: 196 / 285,
                 child: Hero(
-                  tag: widget.doctor.firstName,
+                  tag: Text(""),
                   child: Image(
                       filterQuality: FilterQuality.high,
                       fit: BoxFit.fitHeight,
                       image:
-                          AssetImage('assets/images/' + widget.doctor.image)),
+                          AssetImage('assets/images/doctor1.jpg' )),
                 ),
               ),
             ),

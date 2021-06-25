@@ -18,7 +18,7 @@ class Homepg extends StatefulWidget {
 }
 
 class _Homepg extends State<Homepg> {
-  List <d_info>_items = [];
+  List _items = [];
   @override
   void initState() {
     readJson();
@@ -57,38 +57,67 @@ class _Homepg extends State<Homepg> {
             // Display the data loaded from sample.json
             _items.length > 0
                 ? Expanded(
-                    child: ListView.builder(
-                      itemCount: _items.length,
-                      itemBuilder: (context, index) {
-                        return Card(
-                          margin: EdgeInsets.all(10),
-                          child: ListTile(
-                            //leading: Text(_items[index]["id"]),
-                            leading: ConstrainedBox(
-                              constraints: BoxConstraints(
-                                minWidth: 44,
-                                minHeight: 44,
-                                maxWidth: 44,
-                                maxHeight: 44,
-                              ),
-                              child: Image.asset('assets/images/doctor1.jpg',
-                                  fit: BoxFit.cover),
-                            ),
-                            title: Text(_items[index].fullname),
-                            subtitle: Text(_items[index].specialty),
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => DetailPage(),
-                                      settings: RouteSettings(
-                                          arguments: _items[index])));
-                            },
-                          ),
-                        );
+              child: ListView.builder(
+                itemCount: _items.length,
+                itemBuilder: (context, index) {
+                  return Card(
+                    margin: EdgeInsets.all(10),
+                    child: ListTile(
+                      //leading: Text(_items[index]["id"]),
+                      leading: ConstrainedBox(
+                        constraints: BoxConstraints(
+                          minWidth: 44,
+                          minHeight: 44,
+                          maxWidth: 44,
+                          maxHeight: 44,
+                        ),
+                        child: Image.asset('assets/images/doctor1.jpg',
+                            fit: BoxFit.cover),
+                      ),
+                      title: Text(_items[index]["fullname"]),
+                      subtitle: Text(_items[index]["specialty"]),
+                      onTap: () async {
+                        /*Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => DetailPage(),
+                                settings: RouteSettings(
+                                    arguments: _items[index])));*/
+                        print('tapped');
+                        await showDialog(
+                            barrierDismissible: false,
+                            context: context,
+                            builder: (BuildContext context){
+                            return AlertDialog(
+                             title: new Text("Dr" + _items[index]['fullname']),
+                             content: new Card(
+                               child: Center(
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: <Widget>[
+                                    new Image.asset("assets/images/mathew.png"),
+                                    new Text(_items[index]['address']),
+                                    new Text(_items[index]['governorate']),
+                                    new Text(_items[index]['specialty']),
+                                    new Text(_items[index]['phone']),
+                                  ],
+                                )
+                               ),
+                             ) ,
+                             actions: [
+                               new TextButton(onPressed: (){
+                                 Navigator.of(context).pop();
+                               }, child: new Text ("Fermer"))
+                             ], 
+                            );
+                            });
+
                       },
                     ),
-                  )
+                  );
+                },
+              ),
+            )
                 : Container()
           ],
         ),
