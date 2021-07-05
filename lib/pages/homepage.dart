@@ -48,16 +48,10 @@ class _Homepg extends State<Homepg> {
           children: [
             getSearchBarUI(),
             SizedBox(height: 10.0),
-            ElevatedButton(
-              child: Icon(Icons.sync_rounded),
-              onPressed: readJson,
-            ),
-            SizedBox(height: 10.0),
-
             // Display the data loaded from sample.json
             _items.length > 0
                 ? Expanded(
-              child: ListView.builder(
+                child: ListView.builder(
                 itemCount: _items.length,
                 itemBuilder: (context, index) {
                   return Card(
@@ -74,8 +68,8 @@ class _Homepg extends State<Homepg> {
                         child: Image.asset('assets/images/doctor1.jpg',
                             fit: BoxFit.cover),
                       ),
-                      title: Text(_items[index]["fullname"]),
-                      subtitle: Text(_items[index]["specialty"]+("--")+_items[index]['governorate']),
+                      title: Text("Dr "+_items[index]["fullname"]),
+                      subtitle: Text("Specialité "+_items[index]["specialty"]+("--")+_items[index]['governorate']),
                       onTap: () async {
                         /*Navigator.push(
                             context,
@@ -168,7 +162,9 @@ Widget getSearchBarUI() {
                 padding: const EdgeInsets.only(
                     left: 16, right: 16, top: 4, bottom: 4),
                 child: TextField(
-                  onChanged: (String txt) {},
+                  onChanged: (String txt) {
+
+                  },
                   style: const TextStyle(
                     fontSize: 18,
                   ),

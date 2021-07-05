@@ -41,6 +41,8 @@ class CategoryCard extends StatelessWidget {
                   Spacer(),
                   Image.asset(
                     'assets/images/chocolat.png',
+                    height: 150,
+                    width: 150,
                   ),
                   Spacer(),
                   Text(

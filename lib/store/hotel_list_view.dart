@@ -5,6 +5,7 @@ import 'package:smooth_star_rating/smooth_star_rating.dart';
 import 'package:coeliqueapplication/model/hotel_list_data.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+
 class HotelListView extends StatelessWidget {
   const HotelListView(
       {Key key,
@@ -36,6 +37,7 @@ class HotelListView extends StatelessWidget {
                 splashColor: Colors.transparent,
                 onTap: () {
                   callback();
+                  print("clicked");
                 },
                 child: Container(
                   decoration: BoxDecoration(

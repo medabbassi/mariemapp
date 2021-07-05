@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:coeliqueapplication/store/hotel_app_theme.dart';
 import 'package:coeliqueapplication/widgetRecette/category_card.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:coeliqueapplication/recette détaillé/recette1.dart';
 import 'package:coeliqueapplication/recette détaillé/recette2.dart';
@@ -8,8 +11,24 @@ import 'package:coeliqueapplication/recette détaillé/recette3.dart';
 import 'package:coeliqueapplication/recette détaillé/recette4.dart';
 
 import 'main.dart';
-
-class Recette extends StatelessWidget {
+class Recette extends StatefulWidget{
+  RecetteState createState() => RecetteState();
+}
+class RecetteState extends State<Recette>{
+  List _items =[];
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    readJson();
+  }
+  Future<void> readJson() async {
+    final String response = await rootBundle.loadString('assets/data.json');
+    final data = await json.decode(response);
+    setState(() {
+      _items = data["recipes"];
+    });
+  }
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context)
@@ -37,7 +56,130 @@ class Recette extends StatelessWidget {
               child: Column(
                 children: <Widget>[
                   getSearchBarUI(),
-                  Expanded(
+                  SizedBox(height: 10.0),
+                 _items.length >0
+                  ? Expanded(
+                     child: GridView.builder(
+                         gridDelegate:  SliverGridDelegateWithMaxCrossAxisExtent(
+                             maxCrossAxisExtent: 200,
+                             childAspectRatio: .85,
+                             crossAxisSpacing: 20,
+                             mainAxisSpacing: 20),
+                         itemCount: _items.length
+                         ,
+                         itemBuilder: (BuildContext ctx, index){
+                           return Container(
+                             alignment: Alignment.center,
+                             child: CategoryCard(
+                               title: _items[index]["name"],
+                               img: "assets/images/sable.jpg",
+                               press: () async {
+                                  print('card clicked');
+                                  showGeneralDialog(
+                                      context: context,
+                                      barrierDismissible: true,
+                                      barrierLabel: MaterialLocalizations.of(context)
+                                          .modalBarrierDismissLabel,
+                                      barrierColor: Colors.black45,
+                                      transitionDuration: const Duration(milliseconds: 200),
+                                      pageBuilder: (BuildContext buildContext,
+                                          Animation animation,
+                                          Animation secondaryAnimation) {
+                                        return Scaffold(
+                                          body: CustomScrollView(
+                                            slivers: <Widget>[
+                                              SliverAppBar(
+                                                backgroundColor: Colors.blue[100],
+                                                expandedHeight: 300,
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius: BorderRadius.all(Radius.circular(40))),
+                                                flexibleSpace: FlexibleSpaceBar(
+                                                  background: ClipRRect(
+                                                    borderRadius:
+                                                    BorderRadius.vertical(bottom: Radius.circular(40)),
+                                                    child: Image.asset(
+                                                      'assets/images/chocolat.png',
+                                                      fit: BoxFit.cover,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              SliverList(
+                                                delegate: SliverChildListDelegate(
+                                                  [
+                                                    SizedBox(
+                                                      height: 20,
+                                                    ),
+                                                    ListTile(
+                                                      title: Text(
+                                                        _items[index]["name"],
+                                                        style: TextStyle(
+                                                          fontWeight: FontWeight.w800,
+                                                          fontSize: 20,
+                                                          color: Colors.blueGrey[200],
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    ListTile(
+                                                      title: Text(
+                                                        "Ingrédients",
+                                                        style: TextStyle(
+                                                          fontWeight: FontWeight.w800,
+                                                          fontSize: 20,
+                                                          color: Colors.blueGrey,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    SizedBox(
+                                                      height: 20,
+                                                    ),
+                                                    Padding(
+                                                      padding:
+                                                      const EdgeInsets.only(left: 16, right: 16, bottom: 32),
+                                                      child: Text(
+                                                        _items[index]["ingredients"],
+                                                        style: TextStyle(
+                                                          color: Colors.grey[225],
+                                                          fontSize: 16,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    ListTile(
+                                                      title: Text(
+                                                        "Comment faire :",
+                                                        style: TextStyle(
+                                                          fontWeight: FontWeight.w800,
+                                                          fontSize: 20,
+                                                          color: Colors.blueGrey,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Padding(
+                                                      padding:
+                                                      const EdgeInsets.only(left: 16, right: 16, bottom: 32),
+                                                      child: Text(
+                                                        _items[index]["method"],
+                                                        style: TextStyle(
+                                                          color: Colors.grey[225],
+                                                          fontSize: 16,
+                                                        ),
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        );
+                                      });
+
+                               },
+                             ),
+                           );
+                         })
+                 ):Container()
+
+                 /*Expanded(
                     child: GridView.count(
                       crossAxisCount: 2,
                       childAspectRatio: .85,
@@ -94,7 +236,7 @@ class Recette extends StatelessWidget {
                         ),
                       ],
                     ),
-                  ),
+                  ),*/
                 ],
               ),
             ),
