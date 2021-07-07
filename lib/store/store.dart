@@ -1,5 +1,7 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:ui';
+import 'package:coeliqueapplication/model/hotel_list_data.dart';
 import 'package:coeliqueapplication/store/hotel_list_view.dart';
 import 'package:coeliqueapplication/widgetRecette/category_card.dart';
 import 'package:flutter/material.dart';
@@ -13,19 +15,35 @@ class Store extends StatefulWidget {
   @override
   _StoreState createState() => _StoreState();
 }
+class Debouncer {
+  final int milliseconds;
+  VoidCallback action;
+  Timer _timer;
+
+  Debouncer({this.milliseconds});
+
+  run(VoidCallback action) {
+    if (null != _timer) {
+      _timer.cancel();
+    }
+    _timer = Timer(Duration(milliseconds: milliseconds), action);
+  }
+}
+
 
 class _StoreState extends State<Store> {
   TextEditingController editingController = TextEditingController();
   List _items = [];
   List searchData = [];
-
+  //List<HotelListData> hotelList = HotelListData.hotelList;
+  final _debouncer = Debouncer(milliseconds: 500);
 
   @override
   void initState() {
     super.initState();
     readJson();
-  }
 
+  }
 
   Future<void> readJson() async {
     final String response = await rootBundle.loadString('assets/data.json');
@@ -93,15 +111,12 @@ class _StoreState extends State<Store> {
                                   elevation: 10.0,
                                   child: Column(
                                     children: [
-                                      Image.asset('assets/images/naturelle.png',
+                                      Image.asset( 'assets/images/naturelle.png',
                                       height: 150.0,
                                       fit: BoxFit.fitWidth,),
                                       SizedBox(height: 5,),
-                                     Align(
-                                       alignment: Alignment.topLeft,
-                                       child: Padding(
-
-                                         padding: EdgeInsets.all(10),
+                                     Padding(
+                                         padding: EdgeInsets.all(5),
                                          child: Column(
                                              children: [
                                                Text(_items[index]["name"],
@@ -112,20 +127,20 @@ class _StoreState extends State<Store> {
                                                  ),
                                                ),
                                                SizedBox(height: 5,),
-                                               Row(
-                                                 children: [
+
                                                    Text(_items[index]['address'] ?? "",
                                                      style:TextStyle(
                                                        color: Colors.grey
                                                      ) ,
+                                                     textAlign: TextAlign.center,
                                                    ),
+                                                   SizedBox(height: 5),
                                                    Icon(Icons.pin_drop,
                                                    color: HexColor('#00C6AD'),),
                                                     Text(_items[index]['governorate'] ?? "",
                                                       style:TextStyle(color: Colors.grey) ,),
 
-                                                 ],
-                                               ),
+
                                                SizedBox(height: 10,),
                                             Text("N° tel: "+_items[index]["phone"]?? "",
                                            textAlign: TextAlign.left,
@@ -143,7 +158,7 @@ class _StoreState extends State<Store> {
 
                                        ),
                                      )
-                                  ),
+
                                 ])
                                 );
                               })
@@ -186,6 +201,7 @@ class _StoreState extends State<Store> {
                     autofocus: true,
                     controller: editingController,
                     onTap: (){
+                      print('search clicked');
                       showGeneralDialog(
                           context: context,
                           pageBuilder: (
@@ -193,7 +209,74 @@ class _StoreState extends State<Store> {
                               Animation animation,
                               Animation secondaryAnimation) {
                             return Scaffold(
+                              body: Container(
+                                  child: Column(
+                                    children: [
+                                     SizedBox(height: 10),
+                                    Padding(padding: const EdgeInsets.only(left: 16, right: 16, top: 8,bottom: 4),
+                                      child: TextField(
+                                        controller: editingController,
+                                        onChanged: (String text){
+                                          text =text.toLowerCase();
+                                          
+                                        },
+                                        cursorColor: HotelAppTheme.buildLightTheme().primaryColor,
+                                        decoration: InputDecoration(
+                                          border: InputBorder.none,
+                                          hintText: 'Taper votre ville....',
+                                        ),
+                                      ),
+                                    ),
 
+                                      Expanded(
+                                        child: searchData.length == 0
+                                            ? ListView.builder(
+                                          itemCount: _items.length,
+                                          itemBuilder: (context, int index) {
+                                              return Container(
+
+                                              margin: EdgeInsets.all(10),
+                                                child: Column(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+
+                                                  Container(
+                                                    height: 2,
+                                                  ),
+                                                  Text(_items[index]['governorate'],
+                                                  style: TextStyle(
+                                                    fontSize: 18,
+                                                    fontWeight: FontWeight.w500
+                                                  ),)
+                                                ],
+                                              ),
+                                            );
+                                          },
+                                        )
+                                            : ListView.builder(
+                                          itemCount: searchData.length,
+                                          itemBuilder: (context, int index) {
+                                             return Container(
+
+                                              child: Column(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+
+                                                  Container(
+                                                    height: 2,
+                                                  ),
+                                                  Text(searchData[index]['Title'],
+                                                    style: TextStyle(
+                                                        fontWeight: FontWeight.bold, fontSize: 16),)
+                                                ],
+                                              ),
+                                            );
+                                          },
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                              ),
                             );
                           } );
                     },
