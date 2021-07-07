@@ -5,10 +5,6 @@ import 'package:coeliqueapplication/widgetRecette/category_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:coeliqueapplication/recette détaillé/recette1.dart';
-import 'package:coeliqueapplication/recette détaillé/recette2.dart';
-import 'package:coeliqueapplication/recette détaillé/recette3.dart';
-import 'package:coeliqueapplication/recette détaillé/recette4.dart';
 
 import 'main.dart';
 class Recette extends StatefulWidget{

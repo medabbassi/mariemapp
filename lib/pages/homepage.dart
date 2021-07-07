@@ -51,10 +51,10 @@ class _Homepg extends State<Homepg> {
             // Display the data loaded from sample.json
             _items.length > 0
                 ? Expanded(
-                child: ListView.builder(
-                itemCount: _items.length,
-                itemBuilder: (context, index) {
-                  return Card(
+                  child: ListView.builder(
+                  itemCount: _items.length,
+                  itemBuilder: (context, index) {
+                   return Card(
                     margin: EdgeInsets.all(10),
                     child: ListTile(
                       //leading: Text(_items[index]["id"]),

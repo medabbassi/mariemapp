@@ -1,272 +1,163 @@
+import 'dart:convert';
 import 'dart:ui';
 import 'package:coeliqueapplication/store/hotel_list_view.dart';
-import 'package:coeliqueapplication/model/hotel_list_data.dart';
+import 'package:coeliqueapplication/widgetRecette/category_card.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
+import 'package:coeliqueapplication/store/hotel_app_theme.dart';
 import 'hotel_app_theme.dart';
+
 
 class Store extends StatefulWidget {
   @override
   _StoreState createState() => _StoreState();
 }
 
-class _StoreState extends State<Store> with TickerProviderStateMixin {
-  AnimationController animationController;
-  List<HotelListData> hotelList = HotelListData.hotelList;
-  final ScrollController _scrollController = ScrollController();
+class _StoreState extends State<Store> {
+  TextEditingController editingController = TextEditingController();
+  List _items = [];
+  List searchData = [];
 
-  DateTime startDate = DateTime.now();
-  DateTime endDate = DateTime.now().add(const Duration(days: 5));
 
   @override
   void initState() {
-    animationController = AnimationController(
-        duration: const Duration(milliseconds: 1000), vsync: this);
     super.initState();
+    readJson();
   }
 
-  Future<bool> getData() async {
-    await Future<dynamic>.delayed(const Duration(milliseconds: 200));
-    return true;
-  }
 
-  @override
-  void dispose() {
-    animationController.dispose();
-    super.dispose();
-  }
+  Future<void> readJson() async {
+    final String response = await rootBundle.loadString('assets/data.json');
+    final data = await json.decode(response);
+    setState(() {
+      _items = data["stores"];
+    }); }
 
-  @override
-  Widget build(BuildContext context) {
-    return Theme(
-      data: HotelAppTheme.buildLightTheme(),
-      child: Container(
-        child: Scaffold(
-          appBar: AppBar(
-            title: Text("Les Magasin"),
-          ),
-          body: Stack(
-            children: <Widget>[
-              InkWell(
-                splashColor: Colors.transparent,
-                focusColor: Colors.transparent,
-                highlightColor: Colors.transparent,
-                hoverColor: Colors.transparent,
-                onTap: () {
-                  FocusScope.of(context).requestFocus(FocusNode());
-                },
+  onSearchTextChanged(String text) async {
+    searchData.clear();
+    if (text.isEmpty) {
+      setState(() {
+
+      });
+      return;
+    }
+    _items.forEach((data) {
+      if (data['stores'].toString().toLowerCase().contains(text.toLowerCase().toString())) {
+        searchData.add(data);
+      }
+    });
+    setState(() {
+
+    });
+  }
+    @override
+    Widget build(BuildContext context) {
+      var size = MediaQuery.of(context)
+          .size;
+
+      return Scaffold(
+        backgroundColor: Colors.grey[200],
+        appBar: AppBar(
+          title: Text("Les Magasin"),
+          backgroundColor: HexColor('#00C6AD'),
+        ),
+        body: Stack(
+          children: <Widget>[
+            Container(
+              // Here the height of the container is 45% of our total height
+              height: size.height * .45,
+              decoration: BoxDecoration(
+                color: Color.fromRGBO(220, 220, 220, 0),
+              ),
+            ),
+            SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                ),
                 child: Column(
                   children: <Widget>[
-                    Expanded(
-                      child: NestedScrollView(
-                        controller: _scrollController,
-                        headerSliverBuilder:
-                            (BuildContext context, bool innerBoxIsScrolled) {
-                          return <Widget>[
-                            SliverList(
-                              delegate: SliverChildBuilderDelegate(
-                                  (BuildContext context, int index) {
-                                return Column(
-                                  children: <Widget>[
-                                    getSearchBarUI(),
-                                  ],
-                                );
-                              }, childCount: 1),
-                            ),
-                          ];
-                        },
-                        body: Container(
-                          color:
-                              HotelAppTheme.buildLightTheme().backgroundColor,
+                    getSearchBarUI(),
+                    SizedBox(height: 10.0),
+                    _items.length >0
+                        ? Expanded(
                           child: ListView.builder(
-                            itemCount: hotelList.length,
-                            padding: const EdgeInsets.only(top: 8),
-                            scrollDirection: Axis.vertical,
-                            itemBuilder: (BuildContext context, int index) {
-                              final int count =
-                                  hotelList.length > 10 ? 10 : hotelList.length;
-                              final Animation<double> animation =
-                                  Tween<double>(begin: 0.0, end: 1.0).animate(
-                                      CurvedAnimation(
-                                          parent: animationController,
-                                          curve: Interval(
-                                              (1 / count) * index, 1.0,
-                                              curve: Curves.fastOutSlowIn)));
-                              animationController.forward();
-                              return HotelListView(
-                                callback: () {},
-                                hotelData: hotelList[index],
-                                animation: animation,
-                                animationController: animationController,
-                              );
-                            },
-                          ),
-                        ),
-                      ),
-                    )
+                              padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 5.0),
+                              itemCount: _items.length,
+                              itemBuilder: (context, index) {
+                                return Card(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10)
+                                  ),
+                                  elevation: 10.0,
+                                  child: Column(
+                                    children: [
+                                      Image.asset('assets/images/naturelle.png',
+                                      height: 150.0,
+                                      fit: BoxFit.fitWidth,),
+                                      SizedBox(height: 5,),
+                                     Align(
+                                       alignment: Alignment.topLeft,
+                                       child: Padding(
+
+                                         padding: EdgeInsets.all(10),
+                                         child: Column(
+                                             children: [
+                                               Text(_items[index]["name"],
+                                                 textAlign: TextAlign.left,
+                                                 style: TextStyle(
+                                                   fontWeight: FontWeight.bold,
+                                                   fontSize: 24
+                                                 ),
+                                               ),
+                                               SizedBox(height: 5,),
+                                               Row(
+                                                 children: [
+                                                   Text(_items[index]['address'] ?? "",
+                                                     style:TextStyle(
+                                                       color: Colors.grey
+                                                     ) ,
+                                                   ),
+                                                   Icon(Icons.pin_drop,
+                                                   color: HexColor('#00C6AD'),),
+                                                    Text(_items[index]['governorate'] ?? "",
+                                                      style:TextStyle(color: Colors.grey) ,),
+
+                                                 ],
+                                               ),
+                                               SizedBox(height: 10,),
+                                            Text("N° tel: "+_items[index]["phone"]?? "",
+                                           textAlign: TextAlign.left,
+                                           style: TextStyle(
+                                               fontWeight: FontWeight.bold,
+                                               fontSize: 20
+                                           ),
+                                         ),
+                                               SizedBox(height: 15,),
+                                               IconButton(
+                                                   onPressed: () =>
+                                                   LaunchBrowser(_items[index]['facebook_link']),
+                                                   icon: Icon(Icons.public))
+                                             ],
+
+                                       ),
+                                     )
+                                  ),
+                                ])
+                                );
+                              })
+                    ):Container()
+
+
                   ],
                 ),
               ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget getListUI() {
-    return Container(
-      decoration: BoxDecoration(
-        color: HotelAppTheme.buildLightTheme().backgroundColor,
-        boxShadow: <BoxShadow>[
-          BoxShadow(
-              color: Colors.grey.withOpacity(0.2),
-              offset: const Offset(0, -2),
-              blurRadius: 8.0),
-        ],
-      ),
-      child: Column(
-        children: <Widget>[
-          Container(
-            height: MediaQuery.of(context).size.height - 156 - 50,
-            child: FutureBuilder<bool>(
-              future: getData(),
-              builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
-                if (!snapshot.hasData) {
-                  return const SizedBox();
-                } else {
-                  return ListView.builder(
-                    itemCount: hotelList.length,
-                    scrollDirection: Axis.vertical,
-                    itemBuilder: (BuildContext context, int index) {
-                      final int count =
-                          hotelList.length > 10 ? 10 : hotelList.length;
-                      final Animation<double> animation =
-                          Tween<double>(begin: 0.0, end: 1.0).animate(
-                              CurvedAnimation(
-                                  parent: animationController,
-                                  curve: Interval((1 / count) * index, 1.0,
-                                      curve: Curves.fastOutSlowIn)));
-                      animationController.forward();
-
-                      return HotelListView(
-                        callback: () {},
-                        hotelData: hotelList[index],
-                        animation: animation,
-                        animationController: animationController,
-                      );
-                    },
-                  );
-                }
-              },
             ),
-          )
-        ],
-      ),
-    );
-  }
-
-  Widget getHotelViewList() {
-    final List<Widget> hotelListViews = <Widget>[];
-    for (int i = 0; i < hotelList.length; i++) {
-      final int count = hotelList.length;
-      final Animation<double> animation =
-          Tween<double>(begin: 0.0, end: 1.0).animate(
-        CurvedAnimation(
-          parent: animationController,
-          curve: Interval((1 / count) * i, 1.0, curve: Curves.fastOutSlowIn),
-        ),
-      );
-      hotelListViews.add(
-        HotelListView(
-          callback: () {},
-          hotelData: hotelList[i],
-          animation: animation,
-          animationController: animationController,
+          ],
         ),
       );
     }
-    animationController.forward();
-    return Column(
-      children: hotelListViews,
-    );
-  }
-
-  Widget getTimeDateUI() {
-    return Padding(
-      padding: const EdgeInsets.only(left: 18, bottom: 16),
-      child: Row(
-        children: <Widget>[
-          Expanded(
-            child: Row(
-              children: <Widget>[
-                Material(
-                  color: Colors.transparent,
-                  child: InkWell(
-                    focusColor: Colors.transparent,
-                    highlightColor: Colors.transparent,
-                    hoverColor: Colors.transparent,
-                    splashColor: Colors.grey.withOpacity(0.2),
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(4.0),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                          left: 8, right: 8, top: 2, bottom: 4),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(right: 8),
-            child: Container(
-              width: 1,
-              height: 42,
-              color: Colors.grey.withOpacity(0.8),
-            ),
-          ),
-          Expanded(
-            child: Row(
-              children: <Widget>[
-                Material(
-                  color: Colors.transparent,
-                  child: InkWell(
-                    focusColor: Colors.transparent,
-                    highlightColor: Colors.transparent,
-                    hoverColor: Colors.transparent,
-                    splashColor: Colors.grey.withOpacity(0.2),
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(4.0),
-                    ),
-                    onTap: () {
-                      FocusScope.of(context).requestFocus(FocusNode());
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                          left: 8, right: 8, top: 4, bottom: 4),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          const SizedBox(
-                            height: 5,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
   Widget getSearchBarUI() {
     return Padding(
       padding: const EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 8),
@@ -292,16 +183,31 @@ class _StoreState extends State<Store> with TickerProviderStateMixin {
                   padding: const EdgeInsets.only(
                       left: 16, right: 16, top: 4, bottom: 4),
                   child: TextField(
-                    onChanged: (String txt) {},
+                    autofocus: true,
+                    controller: editingController,
+                    onTap: (){
+                      showGeneralDialog(
+                          context: context,
+                          pageBuilder: (
+                              BuildContext buildContext,
+                              Animation animation,
+                              Animation secondaryAnimation) {
+                            return Scaffold(
+
+                            );
+                          } );
+                    },
+                    onChanged: onSearchTextChanged,
                     style: const TextStyle(
                       fontSize: 18,
                     ),
                     cursorColor: HotelAppTheme.buildLightTheme().primaryColor,
                     decoration: InputDecoration(
                       border: InputBorder.none,
-                      hintText: 'Taper votre ville...',
+                      hintText: 'Taper votre ville....',
                     ),
                   ),
+
                 ),
               ),
             ),
@@ -338,69 +244,17 @@ class _StoreState extends State<Store> with TickerProviderStateMixin {
       ),
     );
   }
+  }
 
-  Widget getFilterBarUI() {
-    return Stack(
-      children: <Widget>[
-        Positioned(
-          top: 0,
-          left: 0,
-          right: 0,
-          child: Container(
-            height: 24,
-            decoration: BoxDecoration(
-              color: HotelAppTheme.buildLightTheme().backgroundColor,
-              boxShadow: <BoxShadow>[
-                BoxShadow(
-                    color: Colors.grey.withOpacity(0.2),
-                    offset: const Offset(0, -2),
-                    blurRadius: 8.0),
-              ],
-            ),
-          ),
-        ),
-        Container(
-          color: HotelAppTheme.buildLightTheme().backgroundColor,
-          child: Padding(
-            padding:
-                const EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 4),
-            child: Row(
-              children: <Widget>[
-                Material(
-                  color: Colors.transparent,
-                  child: InkWell(
-                    focusColor: Colors.transparent,
-                    highlightColor: Colors.transparent,
-                    hoverColor: Colors.transparent,
-                    splashColor: Colors.grey.withOpacity(0.2),
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(4.0),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 8),
-                      child: Row(
-                        children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-        const Positioned(
-          top: 0,
-          left: 0,
-          right: 0,
-          child: Divider(
-            height: 1,
-          ),
-        )
-      ],
-    );
+
+class HexColor extends Color {
+  HexColor(final String hexColor) : super(_getColorFromHex(hexColor));
+
+  static int _getColorFromHex(String hexColor) {
+    hexColor = hexColor.toUpperCase().replaceAll('#', '');
+    if (hexColor.length == 6) {
+      hexColor = 'FF' + hexColor;
+    }
+    return int.parse(hexColor, radix: 16);
   }
 }
