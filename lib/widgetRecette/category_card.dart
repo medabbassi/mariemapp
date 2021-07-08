@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 class CategoryCard extends StatelessWidget {
   final String img;
   final String title;
+  final String type;
   final Function press;
   const CategoryCard({
     Key key,
     this.img,
     this.title,
+    this.type,
     this.press,
     Image child,
   }) : super(key: key);
@@ -35,7 +37,7 @@ class CategoryCard extends StatelessWidget {
           child: InkWell(
             onTap: press,
             child: Padding(
-              padding: const EdgeInsets.all(20.0),
+              padding: const EdgeInsets.all(10.0),
               child: Column(
                 children: <Widget>[
                   Spacer(),
@@ -50,7 +52,17 @@ class CategoryCard extends StatelessWidget {
                         .textTheme
                         .title
                         .copyWith(fontSize: 15),
-                  )
+                  ),
+                Spacer(),
+
+                  Text(
+                    type,
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context)
+                        .textTheme
+                        .title
+                        .copyWith(fontSize: 10),
+                  ),
                 ],
               ),
             ),

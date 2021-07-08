@@ -12,6 +12,8 @@ class Recette extends StatefulWidget{
 }
 class RecetteState extends State<Recette>{
   List _items =[];
+  List lof =[];
+
   @override
   void initState() {
     // TODO: implement initState
@@ -23,6 +25,7 @@ class RecetteState extends State<Recette>{
     final data = await json.decode(response);
     setState(() {
       _items = data["recipes"];
+
     });
   }
   @override
@@ -68,6 +71,7 @@ class RecetteState extends State<Recette>{
                              alignment: Alignment.center,
                              child: CategoryCard(
                                title: _items[index]["name"],
+                               type: _items[index]["recipeType"],
                                img: "assets/images/sable.jpg",
                                press: () async {
                                   print('card clicked');
@@ -115,7 +119,16 @@ class RecetteState extends State<Recette>{
                                                           color: Colors.blueGrey[200],
                                                         ),
                                                       ),
-                                                    ),
+                                                    ), ListTile(
+                                                       title: Text(
+                                                      "Type: "+_items[index]["recipeType"],
+                                                      style: TextStyle(
+                                                        fontWeight: FontWeight.w800,
+                                                        fontSize: 20,
+                                                        color: Colors.blueGrey,
+                                                  ),
+                                                ),
+                                              ),
                                                     ListTile(
                                                       title: Text(
                                                         "Ingrédients",
@@ -175,64 +188,7 @@ class RecetteState extends State<Recette>{
                          })
                  ):Container()
 
-                 /*Expanded(
-                    child: GridView.count(
-                      crossAxisCount: 2,
-                      childAspectRatio: .85,
-                      crossAxisSpacing: 20,
-                      mainAxisSpacing: 20,
-                      children: <Widget>[
-                        CategoryCard(
-                          title: "Gâteau mousse au chocolat sans gluten",
-                          img: "assets/images/chocolat.png",
-                          press: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) {
-                                return Recette1();
-                              }),
-                            );
-                          },
-                        ),
-                        CategoryCard(
-                          title: "Biscuit tunisien sans gluten ",
-                          img: "assets/images/bachkoutou.jpg",
-                          press: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) {
-                                return Recette2();
-                              }),
-                            );
-                          },
-                        ),
-                        CategoryCard(
-                          title: "Makrouth tunisien sans gluten",
-                          img: "assets/images/sable.jpg",
-                          press: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) {
-                                return Recette3();
-                              }),
-                            );
-                          },
-                        ),
-                        CategoryCard(
-                          title: "Sablés Sans Gluten",
-                          img: "assets/images/sable.jpg",
-                          press: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) {
-                                return Recette4();
-                              }),
-                            );
-                          },
-                        ),
-                      ],
-                    ),
-                  ),*/
+
                 ],
               ),
             ),

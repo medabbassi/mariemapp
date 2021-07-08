@@ -43,7 +43,7 @@ class _Homepg extends State<Homepg> {
         backgroundColor: HexColor('#00c6ad'),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(25),
+        padding: const EdgeInsets.all(20),
         child: Column(
           children: [
             getSearchBarUI(),
@@ -51,81 +51,91 @@ class _Homepg extends State<Homepg> {
             // Display the data loaded from sample.json
             _items.length > 0
                 ? Expanded(
+
                   child: ListView.builder(
                   itemCount: _items.length,
                   itemBuilder: (context, index) {
-                   return Card(
-                    margin: EdgeInsets.all(10),
-                    child: ListTile(
-                      //leading: Text(_items[index]["id"]),
-                      leading: ConstrainedBox(
-                        constraints: BoxConstraints(
-                          minWidth: 44,
-                          minHeight: 44,
-                          maxWidth: 44,
-                          maxHeight: 44,
-                        ),
-                        child: Image.asset('assets/images/doctor1.jpg',
-                            fit: BoxFit.cover),
-                      ),
-                      title: Text("Dr "+_items[index]["fullname"]),
-                      subtitle: Text("Specialité "+_items[index]["specialty"]+("--")+_items[index]['governorate']),
-                      onTap: () async {
-                        /*Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => DetailPage(),
-                                settings: RouteSettings(
-                                    arguments: _items[index])));*/
-                        print('tapped');
-                        await showDialog(
-                            barrierDismissible: false,
-                            context: context,
-                            builder: (BuildContext context){
-                            return AlertDialog(
-                             title: new Text("Dr_ "+ _items[index]['fullname']),
-                             content: new Card(
-                               child: Center(
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: <Widget>[
-                                    new Image.asset("assets/images/mathew.png"),
-                                    new SizedBox(height: 5),
-                                    new Text("Addresse: "+_items[index]['address'],
-                                        style:TextStyle(
-                                          fontSize: 22,
-                                          fontWeight: FontWeight.w400
-                                    ) ),
-                                    new SizedBox(height: 5),
-                                    new Text("Governorate: " +_items[index]['governorate'],style:TextStyle(
-                                        fontSize: 22,
-                                        fontWeight: FontWeight.w400
-                                    )),
-                                    new SizedBox(height: 5),
-                                    new Text("Specialité: "+_items[index]['specialty'], style:TextStyle(
-                                        fontSize: 22,
-                                        fontWeight: FontWeight.w400
-                                    )),
-                                    new SizedBox(height: 5),
-                                    new Text("Numero de téléphone: "+_items[index]['phone'], style:TextStyle(
-                                        fontSize: 22,
-                                        fontWeight: FontWeight.w400
-                                    )),
-                                  ],
-                                )
-                               ),
-                             ) ,
-                             actions: [
-                               new TextButton(onPressed: (){
-                                 Navigator.of(context).pop();
-                               }, child: new Text ("Fermer"))
-                             ], 
-                            );
-                            });
+                   return GestureDetector(
 
-                      },
-                    ),
-                  );
+                     onTap:() async {
+                       print('tapped');
+                       await showDialog(
+                           barrierDismissible: false,
+                           context: context,
+                           builder: (BuildContext context){
+                             return AlertDialog(
+                               title: new Text("Dr_ "+ _items[index]['fullname']),
+                               content: new Card(
+                                 child: Center(
+                                     child: Column(
+                                       mainAxisSize: MainAxisSize.min,
+                                       children: <Widget>[
+                                         new Image.asset("assets/images/mathew.png"),
+                                         new SizedBox(height: 5),
+                                         new Text("Addresse: "+_items[index]['address'],
+                                             style:TextStyle(
+                                                 fontSize: 22,
+                                                 fontWeight: FontWeight.w400
+                                             ) ),
+                                         new SizedBox(height: 5),
+                                         new Text("Governorate: " +_items[index]['governorate'],style:TextStyle(
+                                             fontSize: 22,
+                                             fontWeight: FontWeight.w400
+                                         )),
+                                         new SizedBox(height: 5),
+                                         new Text("Specialité: "+_items[index]['specialty'], style:TextStyle(
+                                             fontSize: 22,
+                                             fontWeight: FontWeight.w400
+                                         )),
+                                         new SizedBox(height: 5),
+                                         new Text("Numero de téléphone: "+_items[index]['phone']
+                                             , style:TextStyle(
+                                             fontSize: 22,
+                                             fontWeight: FontWeight.w400
+                                         )),
+                                       ],
+                                     )
+                                 ),
+                               ) ,
+                               actions: [
+                                 new TextButton(onPressed: (){
+                                   Navigator.of(context).pop();
+                                 }, child: new Text ("Fermer"))
+                               ],
+                             );
+                           });
+                     } ,
+                       child: Card(
+                         shape: RoundedRectangleBorder(
+                             borderRadius: BorderRadius.circular(10)
+                         ),
+                         elevation: 10.0,
+                         margin: EdgeInsets.all(10),
+                         child:Row(
+                           children: <Widget>[
+                             Padding(padding: EdgeInsets.only(left: 2),
+                               child: Image.asset( 'assets/images/doctor1.jpg',
+                                 height: 100.0,
+                                 width: 100.0,
+                                 fit: BoxFit.contain,),
+                             ),
+                             SizedBox(height: 5,),
+                             Padding(
+                               padding: EdgeInsets.only(left: 8,right: 1),
+                               child: Column(
+                                 children: [
+                                   Text("Dr "+_items[index]["fullname"].toString()),
+                                   Text("Specialité "+_items[index]["specialty"],),
+                                   Text(_items[index]['governorate'])
+                                 ],
+                               ),
+                             )
+                           ],
+                           //leading: Text(_items[index]["id"]),
+                         ),
+                       )
+                   );
+
                 },
               ),
             )
