@@ -1,9 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:ui';
-import 'package:coeliqueapplication/model/hotel_list_data.dart';
 import 'package:coeliqueapplication/store/hotel_list_view.dart';
-import 'package:coeliqueapplication/widgetRecette/category_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -33,8 +31,17 @@ class Debouncer {
 
 class _StoreState extends State<Store> {
   TextEditingController editingController = TextEditingController();
+  TextEditingController _editingController = TextEditingController();
+
   List _items = [];
   List searchData = [];
+
+  List<String> region=['Tunis','Sfax','Sousse','Kairouan','Bizerte','Gabes','Ariana','Kasserine'
+  ,'Gafsa','Ben Arous','Monastir','Tataouine','Medenine	','Beja	','Nabeul','Jendouba','El Kef'
+  'Mahdia','Sidi Bouzid','Tozeur','Siliana','Kebili','Zaghouan'];
+   // ignore: non_constant_identifier_names
+   var items= List<String>();
+
   //List<HotelListData> hotelList = HotelListData.hotelList;
   final _debouncer = Debouncer(milliseconds: 500);
 
@@ -42,6 +49,31 @@ class _StoreState extends State<Store> {
   void initState() {
     super.initState();
     readJson();
+    items.addAll(region);
+
+  }
+  void filterSearchResults(String query)  async {
+
+    List<String> dummySearchList = List<String>();
+    dummySearchList.addAll(region);
+    if(query.isNotEmpty) {
+      List<String> dummyListData = List<String>();
+      dummySearchList.forEach((item) {
+        if(item.contains(query)) {
+          dummyListData.add(item);
+        }
+      });
+      setState(() {
+        items.clear();
+        items.addAll(dummyListData);
+      });
+      return;
+    } else {
+      setState(() {
+        items.clear();
+        items.addAll(region);
+      });
+    }
 
   }
 
@@ -175,7 +207,7 @@ class _StoreState extends State<Store> {
     }
   Widget getSearchBarUI() {
     return Padding(
-      padding: const EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 8),
+      padding: const EdgeInsets.only(left: 16, right: 16, top: 20, bottom: 8),
       child: Row(
         children: <Widget>[
           Expanded(
@@ -210,72 +242,37 @@ class _StoreState extends State<Store> {
                               Animation secondaryAnimation) {
                             return Scaffold(
                               body: Container(
-                                  child: Column(
-                                    children: [
-                                     SizedBox(height: 10),
-                                    Padding(padding: const EdgeInsets.only(left: 16, right: 16, top: 8,bottom: 4),
+                                child: Column(
+                                  children: <Widget>[
+                                    SizedBox(height: 10,),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
                                       child: TextField(
-                                        controller: editingController,
-                                        onChanged: (String text){
-                                          text =text.toLowerCase();
-                                          
+                                        onChanged: (value) {
+                                          filterSearchResults(value);
                                         },
-                                        cursorColor: HotelAppTheme.buildLightTheme().primaryColor,
+                                        controller: _editingController,
                                         decoration: InputDecoration(
-                                          border: InputBorder.none,
-                                          hintText: 'Taper votre ville....',
-                                        ),
+                                            labelText: "Search",
+                                            hintText: "Search",
+                                            prefixIcon: Icon(Icons.search),
+                                            border: OutlineInputBorder(
+                                                borderRadius: BorderRadius.all(Radius.circular(25.0)))),
                                       ),
                                     ),
-
-                                      Expanded(
-                                        child: searchData.length == 0
-                                            ? ListView.builder(
-                                          itemCount: _items.length,
-                                          itemBuilder: (context, int index) {
-                                              return Container(
-
-                                              margin: EdgeInsets.all(10),
-                                                child: Column(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                children: [
-
-                                                  Container(
-                                                    height: 2,
-                                                  ),
-                                                  Text(_items[index]['governorate'],
-                                                  style: TextStyle(
-                                                    fontSize: 18,
-                                                    fontWeight: FontWeight.w500
-                                                  ),)
-                                                ],
-                                              ),
-                                            );
-                                          },
-                                        )
-                                            : ListView.builder(
-                                          itemCount: searchData.length,
-                                          itemBuilder: (context, int index) {
-                                             return Container(
-
-                                              child: Column(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                children: [
-
-                                                  Container(
-                                                    height: 2,
-                                                  ),
-                                                  Text(searchData[index]['Title'],
-                                                    style: TextStyle(
-                                                        fontWeight: FontWeight.bold, fontSize: 16),)
-                                                ],
-                                              ),
-                                            );
-                                          },
-                                        ),
-                                      )
-                                    ],
-                                  ),
+                                    Expanded(
+                                      child: ListView.builder(
+                                        shrinkWrap: true,
+                                        itemCount: items.length,
+                                        itemBuilder: (context, index) {
+                                          return ListTile(
+                                            title: Text('${items[index]}'),
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             );
                           } );

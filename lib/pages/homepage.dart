@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+
 import '../../doctor.dart';
 
 class Homepg extends StatefulWidget {
@@ -63,44 +64,62 @@ class _Homepg extends State<Homepg> {
                            barrierDismissible: false,
                            context: context,
                            builder: (BuildContext context){
+
                              return AlertDialog(
-                               title: new Text("Dr_ "+ _items[index]['fullname']),
-                               content: new Card(
-                                 child: Center(
-                                     child: Column(
-                                       mainAxisSize: MainAxisSize.min,
-                                       children: <Widget>[
-                                         new Image.asset("assets/images/mathew.png"),
-                                         new SizedBox(height: 5),
-                                         new Text("Addresse: "+_items[index]['address'],
-                                             style:TextStyle(
-                                                 fontSize: 22,
-                                                 fontWeight: FontWeight.w400
-                                             ) ),
-                                         new SizedBox(height: 5),
-                                         new Text("Governorate: " +_items[index]['governorate'],style:TextStyle(
-                                             fontSize: 22,
-                                             fontWeight: FontWeight.w400
-                                         )),
-                                         new SizedBox(height: 5),
-                                         new Text("Specialité: "+_items[index]['specialty'], style:TextStyle(
-                                             fontSize: 22,
-                                             fontWeight: FontWeight.w400
-                                         )),
-                                         new SizedBox(height: 5),
-                                         new Text("Numero de téléphone: "+_items[index]['phone']
-                                             , style:TextStyle(
-                                             fontSize: 22,
-                                             fontWeight: FontWeight.w400
-                                         )),
-                                       ],
-                                     )
-                                 ),
+                               title: new Text("Dr_ "+ _items[index]['fullname'],
+                               style: TextStyle(
+                                 fontWeight: FontWeight.bold,
+                                 fontSize: 20,
+                                 fontFamily: 'assets/fonts/SFProDisplay-Bold.otf'
+                               ),
+                               maxLines: 1,
+                               softWrap: false,
+                               overflow: TextOverflow.ellipsis,),
+                               content:  Card(
+                                 child: Column(
+                                 mainAxisAlignment: MainAxisAlignment.start,
+                                 mainAxisSize: MainAxisSize.max,
+                                 crossAxisAlignment: CrossAxisAlignment.start,
+                                 children: <Widget>[
+                                 Image.asset("assets/images/cherly.png",
+                                     fit: BoxFit.cover,
+                                     height: 200,
+                                     width: 200,
+                                   ),
+                                   SizedBox(height: 5),
+                                    Text("Addresse: \n "+_items[index]['address'],
+                                       style:TextStyle(
+                                           fontSize: 22,
+                                           fontWeight: FontWeight.w400
+                                       )
+                                   ),
+                                   SizedBox(height: 5),
+                                  Text(
+                                       "Governorate: \n" +_items[index]['governorate'],style:TextStyle(
+                                       fontSize: 22,
+                                       fontWeight: FontWeight.w400
+                                   )),
+                                  SizedBox(height: 5),
+                                   Text(
+                                       "Specialité: \n "+_items[index]['specialty'], style:TextStyle(
+                                       fontSize: 22,
+                                       fontWeight: FontWeight.w400
+                                   )),
+                                    SizedBox(height: 5),
+                                    Text(
+                                       "Numero de téléphone: \n"+_items[index]['phone']
+                                       , style:TextStyle(
+                                       fontSize: 22,
+                                       fontWeight: FontWeight.w400
+                                   )),
+                                 ],
+                               )
                                ) ,
                                actions: [
-                                 new TextButton(onPressed: (){
-                                   Navigator.of(context).pop();
-                                 }, child: new Text ("Fermer"))
+                                    TextButton(onPressed: (){
+                                       Navigator.of(context).pop();
+                                  },
+                                        child:  Text ("Fermer"))
                                ],
                              );
                            });
