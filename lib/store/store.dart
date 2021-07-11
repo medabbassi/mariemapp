@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:ui';
 import 'package:coeliqueapplication/store/hotel_list_view.dart';
+import 'package:coeliqueapplication/store/storeSearch.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -34,25 +35,48 @@ class _StoreState extends State<Store> {
   TextEditingController _editingController = TextEditingController();
 
   List _items = [];
-  List searchData = [];
+ // List searchData = [];
 
-  List<String> region=['Tunis','Sfax','Sousse','Kairouan','Bizerte','Gabes','Ariana','Kasserine'
+ /* List<String> region=['Tunis','Sfax','Sousse','Kairouan','Bizerte','Gabes','Ariana','Kasserine'
   ,'Gafsa','Ben Arous','Monastir','Tataouine','Medenine	','Beja	','Nabeul','Jendouba','El Kef'
-  'Mahdia','Sidi Bouzid','Tozeur','Siliana','Kebili','Zaghouan'];
+  'Mahdia','Sidi Bouzid','Tozeur','Siliana','Kebili','Zaghouan'];*/
    // ignore: non_constant_identifier_names
-   var items= List<String>();
+  /* var items= List<String>();*/
 
   //List<HotelListData> hotelList = HotelListData.hotelList;
   final _debouncer = Debouncer(milliseconds: 500);
+  bool _isSearch = true;
+  String _searchText ="";
+  List<String> _regionListItems;
+  List<String> _searchListItems;
 
   @override
   void initState() {
     super.initState();
     readJson();
-    items.addAll(region);
+    _regionListItems = new List<String>();
+    _regionListItems=['Tunis','Sfax','Sousse','Kairouan','Bizerte','Gabes','Ariana','Kasserine'
+      ,'Gafsa','Ben Arous','Monastir','Tataouine','Medenine	','Beja	','Nabeul','Jendouba','El Kef',
+          'Mahdia','Sidi Bouzid','Tozeur','Siliana','Kebili','Zaghouan'];
+    _regionListItems.sort();
 
   }
-  void filterSearchResults(String query)  async {
+  _StoreState(){
+    _editingController.addListener(() {
+      if(_editingController.text.isEmpty){
+        setState(() {
+          _isSearch=true;
+          _searchText ="";
+        });
+      } else {
+        setState(() {
+          _isSearch =false;
+          _searchText =_editingController.text;
+        });
+      }
+    });
+  }
+ /* void filterSearchResults(String query)  async {
 
     List<String> dummySearchList = List<String>();
     dummySearchList.addAll(region);
@@ -75,7 +99,8 @@ class _StoreState extends State<Store> {
       });
     }
 
-  }
+  }*/
+
 
   Future<void> readJson() async {
     final String response = await rootBundle.loadString('assets/data.json');
@@ -84,23 +109,7 @@ class _StoreState extends State<Store> {
       _items = data["stores"];
     }); }
 
-  onSearchTextChanged(String text) async {
-    searchData.clear();
-    if (text.isEmpty) {
-      setState(() {
 
-      });
-      return;
-    }
-    _items.forEach((data) {
-      if (data['stores'].toString().toLowerCase().contains(text.toLowerCase().toString())) {
-        searchData.add(data);
-      }
-    });
-    setState(() {
-
-    });
-  }
     @override
     Widget build(BuildContext context) {
       var size = MediaQuery.of(context)
@@ -231,10 +240,11 @@ class _StoreState extends State<Store> {
                       left: 16, right: 16, top: 4, bottom: 4),
                   child: TextField(
                     autofocus: true,
-                    controller: editingController,
+                    controller: _editingController,
                     onTap: (){
                       print('search clicked');
-                      showGeneralDialog(
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=> StoreSearch()));
+                     /* showGeneralDialog(
                           context: context,
                           pageBuilder: (
                               BuildContext buildContext,
@@ -242,42 +252,18 @@ class _StoreState extends State<Store> {
                               Animation secondaryAnimation) {
                             return Scaffold(
                               body: Container(
-                                child: Column(
-                                  children: <Widget>[
-                                    SizedBox(height: 10,),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: TextField(
-                                        onChanged: (value) {
-                                          filterSearchResults(value);
-                                        },
-                                        controller: _editingController,
-                                        decoration: InputDecoration(
-                                            labelText: "Search",
-                                            hintText: "Search",
-                                            prefixIcon: Icon(Icons.search),
-                                            border: OutlineInputBorder(
-                                                borderRadius: BorderRadius.all(Radius.circular(25.0)))),
-                                      ),
-                                    ),
-                                    Expanded(
-                                      child: ListView.builder(
-                                        shrinkWrap: true,
-                                        itemCount: items.length,
-                                        itemBuilder: (context, index) {
-                                          return ListTile(
-                                            title: Text('${items[index]}'),
-                                          );
-                                        },
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                                margin: EdgeInsets.only(left: 10.0, right: 10.0, top: 10.0),
+                                child:new Column(
+                                  children : [
+                                   _searchBox(),
+                                   _isSearch ? _listView(): _searchListView()
+                                  ]
+                             ) ,
                               ),
                             );
-                          } );
+                          } );*/
                     },
-                    onChanged: onSearchTextChanged,
+                    //onChanged:(String) ,
                     style: const TextStyle(
                       fontSize: 18,
                     ),
@@ -322,6 +308,62 @@ class _StoreState extends State<Store> {
           ),
         ],
       ),
+    );
+  }
+  Widget _searchBox() {
+    return new Container(
+      decoration: BoxDecoration(border: Border.all(width: 1.0)),
+      child: new TextField(
+        controller: _editingController,
+        decoration: InputDecoration(
+          hintText: "Search",
+          hintStyle: new TextStyle(color: Colors.grey[300]),
+        ),
+        textAlign: TextAlign.center,
+      ),
+    );
+  }
+  Widget _listView() {
+    return new Flexible(
+      child: new ListView.builder(
+          itemCount: _regionListItems.length,
+          itemBuilder: (BuildContext context, int index) {
+            return new Card(
+              color: Colors.cyan[50],
+              elevation: 5.0,
+              child: new Container(
+                margin: EdgeInsets.all(15.0),
+                child: new Text("${_regionListItems[index]}"),
+              ),
+            );
+          }),
+    );
+  }
+  Widget _searchListView() {
+    _searchListItems = new List<String>();
+    for (int i = 0; i < _regionListItems.length; i++) {
+      var item = _regionListItems[i];
+
+      if (item.toLowerCase().contains(_searchText.toLowerCase())) {
+        _searchListItems.add(item);
+      }
+    }
+    return _searchAddList();
+  }
+  Widget _searchAddList() {
+    return new Flexible(
+      child: new ListView.builder(
+          itemCount: _searchListItems.length,
+          itemBuilder: (BuildContext context, int index) {
+            return new Card(
+              color: Colors.cyan[100],
+              elevation: 5.0,
+              child: new Container(
+                margin: EdgeInsets.all(15.0),
+                child: new Text("${_searchListItems[index]}"),
+              ),
+            );
+          }),
     );
   }
   }
