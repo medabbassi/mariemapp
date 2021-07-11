@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'hotel_app_theme.dart';
 
@@ -12,13 +15,20 @@ class _StoreSearchState extends State<StoreSearch> {
 
   bool _isSearch = true;
   String _searchText = "";
-
+  List _items = [];
   List<String> _socialListItems;
   List<String> _searchListItems;
+  Future<void> readJson() async {
+    final String response = await rootBundle.loadString('assets/data.json');
+    final data = await json.decode(response);
+    setState(() {
+      _items = data["stores"];
+    }); }
 
   @override
   void initState() {
     super.initState();
+    readJson();
     _socialListItems = new List<String>();
     _socialListItems = [
       'Tunis','Sfax','Sousse','Kairouan','Bizerte','Gabes','Ariana','Kasserine'
@@ -80,14 +90,18 @@ class _StoreSearchState extends State<StoreSearch> {
   Widget _listView() {
     return new Flexible(
       child: new ListView.builder(
-          itemCount: _socialListItems.length,
+          itemCount: _items.length,
           itemBuilder: (BuildContext context, int index) {
             return new Card(
               color: Colors.cyan[50],
               elevation: 5.0,
               child: new Container(
                 margin: EdgeInsets.all(15.0),
-                child: new Text("${_socialListItems[index]}"),
+                child: ListTile(
+                  title: Text(_items[index]['name']),
+                  subtitle: Text("N° tel: "+_items[index]["phone"]),
+                )
+                //new Text("${_socialListItems[index]}"),
               ),
             );
           }),
@@ -106,22 +120,31 @@ class _StoreSearchState extends State<StoreSearch> {
     return _searchAddList();
   }
 
+
   Widget _searchAddList() {
-    return new Flexible(
-      child: new ListView.builder(
-          itemCount: _searchListItems.length,
-          itemBuilder: (BuildContext context, int index) {
-            return new Card(
-              color: Colors.cyan[100],
-              elevation: 5.0,
-              child: new Container(
-                margin: EdgeInsets.all(15.0),
-                child: new Text("${_searchListItems[index]}"),
-              ),
-            );
-          }),
-    );
-  }
+
+
+      return new Flexible(
+        child: new ListView.builder(
+            itemCount: _searchListItems.length,
+            itemBuilder: (BuildContext context, int index) {
+              return new Card(
+                color: Colors.cyan[100],
+                elevation: 5.0,
+                child: new Container(
+                    margin: EdgeInsets.all(15.0),
+                    child:ListTile(
+                      title: Text(_items[index]['name']),
+                      subtitle: Text("N° tel: "+_items[index]["phone"]),
+                    ),
+                    ),
+      );
+
+            }),
+      );
+    }
+
+
 }
 class HexColor extends Color {
   HexColor(final String hexColor) : super(_getColorFromHex(hexColor));
