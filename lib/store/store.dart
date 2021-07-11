@@ -107,6 +107,7 @@ class _StoreState extends State<Store> {
     final data = await json.decode(response);
     setState(() {
       _items = data["stores"];
+      _items.sort();
     }); }
 
 
